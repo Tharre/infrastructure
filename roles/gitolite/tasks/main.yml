@@ -1,0 +1,40 @@
+---
+- name: Add git user
+  user:
+    name: "{{ git_user }}"
+    home: "{{ git_dir }}"
+    system: yes
+    generate_ssh_key: yes
+    state: present
+
+- name: Install gitolite (and git)
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - git-core
+    - gitolite3
+
+- name: Check if this is a new installation
+  stat:
+    path: "{{ git_dir }}/.gitolite"
+  register: gitolite_dir
+
+- include: "init.yml"
+  when: not gitolite_dir.stat.exists
+
+- name: Copy configuration from template
+  template:
+    src: gitolite.rc.j2
+    dest: "{{ git_dir }}/.gitolite.rc"
+    mode: 0644
+    owner: "{{ git_user }}"
+    group: "{{ git_group }}"
+    backup: yes
+
+- name: Set permissions on {{ git_dir }}
+  file:
+    path: "{{ git_dir }}"
+    recurse: yes
+    owner: "{{ git_user }}"
+    group: "{{ git_group }}"

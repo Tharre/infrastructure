@@ -1,0 +1,30 @@
+---
+
+- name: Install packages
+  package: name={{ item }} state=present
+  with_items:
+    - git
+    - vim
+    - zsh
+    - htop
+    - tmux
+  become: true
+
+- name: Clone dotfiles
+  git:
+    repo: 'https://github.com/Tharre/dotfiles.git'
+    dest: "{{ ansible_user_dir }}/dotfiles"
+    recursive: no
+  register: dotfiles
+
+- name: Install dotfiles
+  shell: ./install.sh
+  args:
+    chdir: "{{ ansible_user_dir }}/dotfiles"
+  when: dotfiles.changed
+
+- name: Change shell to zsh
+  user:
+    name: "{{ ansible_user_id }}"
+    shell: /usr/bin/zsh
+  become: true

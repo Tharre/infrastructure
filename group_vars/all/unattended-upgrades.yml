@@ -1,0 +1,9 @@
+---
+
+unattended_origins_patterns:
+  - 'origin=Debian,codename=${distro_codename},label=Debian-Security'
+  - 'origin=Debian,codename=${distro_codename},label=Debian'
+unattended_mail: 'tharre3@gmail.com'
+unattended_remove_unused_dependencies: true
+unattended_automatic_reboot: true
+unattended_automatic_reboot_time: '12:00'

@@ -1,0 +1,12 @@
+[submodule "roles/enable-standard-cronjobs"]
+	path = roles/enable-standard-cronjobs
+	url = https://github.com/Yannik/ansible-role-enable-standard-cronjobs.git
+[submodule "roles/unattended-upgrades"]
+	path = roles/unattended-upgrades
+	url = https://github.com/jnv/ansible-role-unattended-upgrades.git
+[submodule "roles/postfix"]
+	path = roles/postfix
+	url = https://github.com/Oefenweb/ansible-postfix.git
+[submodule "roles/teamspeak"]
+	path = roles/teamspeak
+	url = https://github.com/Tharre/ansible-teamspeak

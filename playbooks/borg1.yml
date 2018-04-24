@@ -1,0 +1,26 @@
+---
+- name: Install borg1 server
+  hosts: borg1.th73.ovh
+  gather_facts: False
+  become: true
+  pre_tasks:
+    - raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+      register: raw_output
+      changed_when: raw_output.stdout != ""
+      tags: always
+    - setup: # gather_facts
+      tags: always
+  tasks:
+    - name: Ensure cron is installed
+      package:
+        name: "cron"
+        state: present
+      tags: ['debian']
+  roles:
+    - { role: dotfiles, tags: ['dotfiles'] }
+    - { role: teamspeak, tags: ['ts3'] }
+    - { role: enable-standard-cronjobs, tags: ['debian'] }
+    - { role: unattended-upgrades, tags: ['debian'] }
+    - { role: postfix, tags: ['debian'] }
+    - { role: gitolite, git_config_keys: ".*", tags: ['git'] }
+    - { role: borgbackup, tags: ['backup'] }

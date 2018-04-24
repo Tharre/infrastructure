@@ -1,0 +1,70 @@
+---
+
+- name: Ensure borgbackup is installed
+  package:
+    name: borgbackup
+    state: present
+
+- name: Add borg group
+  group:
+    name: "{{ borg_group }}"
+    state: present
+
+- name: Add borg user
+  user:
+    name: "{{ borg_user }}"
+    group: "{{ borg_group }}"
+    home: "{{ borg_dir }}"
+    shell: "{{ borg_shell }}"
+    groups: []
+    state: present
+
+- name: Ensure borg user's home directory is present
+  file:
+    path: "{{ borg_dir }}"
+    owner: "{{ borg_user }}"
+    group: "{{ borg_group }}"
+    mode: 0700
+    state: directory
+
+- name: Ensure .ssh directory exists
+  file:
+    path: "{{ borg_dir }}/.ssh"
+    owner: "{{ borg_user }}"
+    group: "{{ borg_group }}"
+    mode: 0700
+    state: directory
+
+- name: Ensure pool exists
+  file:
+    path: "{{ borg_pool }}"
+    owner: "{{ borg_user }}"
+    group: "{{ borg_group }}"
+    mode: 0700
+    state: directory
+
+# Be aware this does not remove other keys as authorized_key is broken when used
+# in exclusive mode with with_items
+- name: Setup authorized_keys
+  authorized_key:
+    user: "{{ borg_user }}"
+    key: "{{ item.key }}"
+    key_options: 'command="cd {{ borg_pool }}/{{ item.host }};borg serve --restrict-to-path {{ borg_pool }}/{{ item.host }}",restrict'
+  with_items: "{{ borg_auth_users }}"
+
+- name: Ensure .ssh/authorized_keys exists
+  file:
+    path: "{{ borg_dir }}/.ssh/authorized_keys"
+    owner: "{{ borg_user }}"
+    group: "{{ borg_group }}"
+    mode: 0600
+    state: file
+
+- name: Ensure all the user pools exist
+  file:
+    path: "{{ borg_pool }}/{{ item.host }}"
+    owner: "{{ borg_user }}"
+    group: "{{ borg_group }}"
+    mode: 0700
+    state: directory
+  with_items: "{{ borg_auth_users }}"

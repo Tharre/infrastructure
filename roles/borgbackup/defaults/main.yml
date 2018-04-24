@@ -1,0 +1,8 @@
+---
+
+borg_user: "borg"
+borg_group: "borg"
+borg_dir: "/srv/borgbackup"
+borg_shell: "/bin/bash"
+borg_pool: "{{ borg_dir }}/repos"
+borg_auth_users: []

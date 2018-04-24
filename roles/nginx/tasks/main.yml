@@ -1,0 +1,36 @@
+---
+
+- name: Install nginx
+  package:
+    name: nginx, certbot
+    state: present
+
+- name: Configure nginx
+  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf owner=root group=root mode=0644
+  notify:
+    - restart nginx
+
+- name: Create snippets directory
+  file: state=directory path=/etc/nginx/snippets owner=root group=root mode=0755
+
+- name: Copy snippets
+  template: src={{ item }} dest=/etc/nginx/snippets owner=root group=root mode=0644
+  with_items:
+    - letsencrypt.conf
+    - sslsettings.conf
+  notify:
+    - reload nginx
+
+- name: Create nginx.d directory
+  file: state=directory path=/etc/nginx/nginx.d owner=root group=root mode=0755
+
+- name: Install letsencrypt renewal service
+  copy: src={{ item }} dest=/etc/systemd/system/{{ item }} owner=root group=root mode=0644
+  with_items:
+    - certbot-renewal.service
+    - certbot-renewal.timer
+  notify:
+    - daemon reload
+
+- name: Enable nginx
+  service: name=nginx enabled=yes

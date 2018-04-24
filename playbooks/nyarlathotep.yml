@@ -1,0 +1,6 @@
+---
+- name: Install nyarlathotep server
+  hosts: nyarlathotep.th73.ovh
+  become: true
+  roles:
+    - { role: nginx, tags: ['www'] }

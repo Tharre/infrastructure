@@ -1,0 +1,3 @@
+[servers]
+borg1.th73.ovh ansible_user=root
+nyarlathotep.th73.ovh ansible_user=tharre

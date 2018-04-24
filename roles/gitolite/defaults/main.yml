@@ -1,0 +1,7 @@
+---
+git_user: "git"
+git_group: "git"
+git_dir: "/srv/git"
+git_admin_key: "~/.ssh/id_rsa.pub"
+git_umask: "0027"
+git_config_keys: ""
