@@ -3,6 +3,7 @@
   hosts: nyarlathotep.th73.ovh
   become: true
   roles:
+    - { role: teamspeak, tags: ['ts3'] }
     - { role: nginx, tags: ['www'] }
     - { role: gitolite, git_config_keys: ".*", tags: ['git'] }
     - { role: cgit, tags: ['cgit'] }
