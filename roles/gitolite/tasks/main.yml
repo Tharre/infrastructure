@@ -1,19 +1,28 @@
 ---
+- name: "Load OS specific variables"
+  include_vars: "{{ item }}"
+  with_first_found:
+    - files:
+        - "{{ ansible_distribution|lower }}.yml"
+        - "{{ ansible_os_family|lower }}.yml"
+        - "{{ ansible_system|lower }}.yml"
+      skip: true
+      paths:
+        - ../vars
+
 - name: Add git user
   user:
     name: "{{ git_user }}"
     home: "{{ git_dir }}"
     system: yes
+    shell: "/bin/bash"
     generate_ssh_key: yes
     state: present
 
-- name: Install gitolite (and git)
+- name: Install gitolite
   package:
-    name: "{{ item }}"
+    name: "{{ gitolite_pkg }}"
     state: present
-  with_items:
-    - git-core
-    - gitolite3
 
 - name: Check if this is a new installation
   stat:
@@ -36,5 +45,6 @@
   file:
     path: "{{ git_dir }}"
     recurse: yes
+    mode: "g+rX"
     owner: "{{ git_user }}"
     group: "{{ git_group }}"

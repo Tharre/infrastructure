@@ -1,0 +1,46 @@
+---
+
+- name: Install cgit and dependencies
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - cgit
+    - fcgiwrap
+    - python-pygments
+    - python-markdown
+    - python-docutils
+
+- name: Append git group to http user
+  user:
+    name: "http"
+    groups: "git"
+    append: yes
+  notify:
+    - restart fcgiwrap
+
+- name: Enable fcgiwrap
+  service:
+    name: fcgiwrap.socket
+    state: started
+    enabled: yes
+  notify:
+    - restart fcgiwrap
+
+- name: Copy configuration from template
+  template:
+    src: cgitrc.j2
+    dest: /etc/cgitrc
+    mode: 0644
+    owner: "root"
+    group: "root"
+
+- name: Copy nginx conf file
+  template:
+    src: cgit_nginx.conf.j2
+    dest: /etc/nginx/nginx.d/cgit.conf
+    mode: 0644
+    owner: "root"
+    group: "root"
+  notify:
+    - reload nginx

@@ -1,0 +1,3 @@
+---
+cgit_subdomain: "git.th73.ovh"
+gitolite_clone: "git@th73.ovh"

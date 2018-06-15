@@ -1,0 +1,36 @@
+# {{ ansible_managed }}
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name {{ cgit_subdomain }};
+
+    include snippets/letsencrypt.conf;
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name {{ cgit_subdomain }};
+
+    root /usr/share/webapps/cgit;
+    index index.html index.htm;
+
+    ssl_certificate         /etc/letsencrypt/live/{{ cgit_subdomain }}/fullchain.pem;
+    ssl_certificate_key     /etc/letsencrypt/live/{{ cgit_subdomain }}/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/{{ cgit_subdomain }}/chain.pem;
+
+    try_files $uri @cgit;
+    location @cgit {
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root/cgit.cgi;
+        fastcgi_param PATH_INFO $uri;
+        fastcgi_param QUERY_STRING $args;
+        fastcgi_param HTTP_HOST $server_name;
+        fastcgi_pass unix:/run/fcgiwrap.sock;
+    }
+}
