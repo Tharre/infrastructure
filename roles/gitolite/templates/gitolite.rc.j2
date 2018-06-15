@@ -73,7 +73,7 @@
         # or you can use this, which lets you put everything in a subdirectory
         # called "local" in your gitolite-admin repo.  For a SECURITY WARNING
         # on this, see http://gitolite.com/gitolite/cust.html#pushcode
-        # LOCAL_CODE                =>  "$rc{GL_ADMIN_BASE}/local",
+        LOCAL_CODE                =>  "$rc{GL_ADMIN_BASE}/local",
 
     # ------------------------------------------------------------------
 
@@ -157,7 +157,7 @@
             # 'cgit',
 
             # allow repo-specific hooks to be added
-            # 'repo-specific-hooks',
+            'repo-specific-hooks',
 
         # performance, logging, monitoring...
 
