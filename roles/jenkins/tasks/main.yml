@@ -1,0 +1,16 @@
+---
+
+- name: Install jenkins
+  package:
+    name: jenkins
+    state: present
+
+- name: Copy nginx conf file
+  template:
+    src: jenkins_nginx.conf.j2
+    dest: /etc/nginx/nginx.d/jenkins.conf
+    mode: 0644
+    owner: "root"
+    group: "root"
+  notify:
+    - reload nginx

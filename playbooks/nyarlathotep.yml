@@ -6,3 +6,4 @@
     - { role: nginx, tags: ['www'] }
     - { role: gitolite, git_config_keys: ".*", tags: ['git'] }
     - { role: cgit, tags: ['cgit'] }
+    - { role: jenkins, tags: ['jenkins'] }
