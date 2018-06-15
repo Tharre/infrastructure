@@ -3,4 +3,4 @@
 borg_auth_users:
   - host: xultrabook
     #key: "{{ lookup('file', '~/etc/ssh_keys.pub') }}"
-    key: "{{ lookup('file', '/var/lib/borg_key.pub') }}"
+    key: "{{ lookup('file', '~/.ssh/borg_key.pub') }}"
