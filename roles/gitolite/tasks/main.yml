@@ -41,9 +41,9 @@
     group: "{{ git_group }}"
     backup: yes
 
-- name: Set permissions on {{ git_dir }}
+- name: Set permissions on {{ git_dir }}/repositories
   file:
-    path: "{{ git_dir }}"
+    path: "{{ git_dir }}/repositories"
     recurse: yes
     mode: "g+rX"
     owner: "{{ git_user }}"
