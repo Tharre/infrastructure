@@ -17,8 +17,7 @@ about-filter=/usr/lib/cgit/filters/about-formatting.sh
 clone-url=https://$HTTP_HOST/$CGIT_REPO_URL git://{{ gitolite_clone }}:$CGIT_REPO_URL ssh://{{ gitolite_clone }}/$CGIT_REPO_URL
 
 # enable git blame
-# not implemented yet in v1.1
-#enable-blame=1
+enable-blame=1
 
 # use information from gitolite
 enable-git-config=1
