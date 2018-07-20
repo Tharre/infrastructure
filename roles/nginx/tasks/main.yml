@@ -32,5 +32,12 @@
   notify:
     - daemon reload
 
+- name: Enable letsencrypt renewal timer
+  systemd:
+    name: certbot-renewal.timer
+    daemon-reload: yes
+    state: started
+    enabled: True
+
 - name: Enable nginx
   service: name=nginx enabled=yes
