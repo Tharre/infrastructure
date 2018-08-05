@@ -1,0 +1,12 @@
+---
+
+grokmirror_toplevel: "/srv/gitmirror"
+grokmirror_include:
+        - "/pub/scm/linux/kernel/git/torvalds/linux.git"
+        - "/pub/scm/linux/kernel/git/zx2c4/WireGuard.git"
+        - "/pub/scm/linux/kernel/git/zx2c4/cgit.git"
+        - "/pub/scm/git/git-htmldocs.git"
+        - "/pub/scm/git/git-manpages.git"
+        - "/pub/scm/git/git.git"
+        - "/pub/scm/utils/grokmirror/grokmirror.git"
+        - "/pub/scm/utils/kernel/virtme/virtme.git"

@@ -1,0 +1,10 @@
+[Unit]
+Description=Run grok-pull for mirroring
+
+[Service]
+Type=oneshot
+User={{ git_user }}
+Group={{ git_group }}
+# 127 = contents modified
+SuccessExitStatus=127
+ExecStart=/usr/bin/grok-pull -p -c /etc/grokmirror/repos.conf

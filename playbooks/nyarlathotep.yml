@@ -6,5 +6,6 @@
     - { role: teamspeak, tags: ['ts3'] }
     - { role: nginx, tags: ['www'] }
     - { role: gitolite, git_config_keys: ".*", tags: ['git'] }
+    - { role: grokmirror, tags: ['git'] }
     - { role: cgit, tags: ['cgit'] }
     - { role: jenkins, tags: ['jenkins'] }

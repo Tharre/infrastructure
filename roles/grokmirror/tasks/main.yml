@@ -1,0 +1,38 @@
+---
+
+- name: Ensure /etc/grokmirror exists
+  file:
+    path: /etc/grokmirror
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Ensure {{ grokmirror_toplevel }} exists
+  file:
+    path: "{{ grokmirror_toplevel }}"
+    state: directory
+    owner: "{{ git_user }}"
+    group: "{{ git_group }}"
+    mode: 0755
+
+- name: Install /etc/grokmirror/repos.conf
+  template:
+    src: repos.conf.j2
+    dest: /etc/grokmirror/repos.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Install grokmirror service+timer
+  template: src={{ item }} dest=/etc/systemd/system/{{ item }} owner=root group=root mode=0644
+  with_items:
+    - grokmirror.service
+    - grokmirror.timer
+
+- name: Enable grokmirror timer
+  systemd:
+    name: grokmirror.timer
+    daemon-reload: yes
+    state: started
+    enabled: True

@@ -1,0 +1,6 @@
+---
+
+grokmirror_toplevel: "/var/lib/git/mirror"
+grokmirror_include: "*"
+git_user: "git"
+git_group: "git"
