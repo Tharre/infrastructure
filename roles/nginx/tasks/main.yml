@@ -35,7 +35,6 @@
 - name: Enable letsencrypt renewal timer
   systemd:
     name: certbot-renewal.timer
-    daemon-reload: yes
     state: started
     enabled: True
 
