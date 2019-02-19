@@ -1,0 +1,30 @@
+---
+
+- name: Install znc
+  package:
+    name: znc
+    state: present
+
+- name: Install certbot hook
+  copy:
+    src: znc-certbot-hook
+    dest: /etc/letsencrypt/renewal-hooks/deploy/znc
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Copy nginx conf file
+  template:
+    src: znc_nginx.conf.j2
+    dest: /etc/nginx/nginx.d/znc.conf
+    mode: 0644
+    owner: "root"
+    group: "root"
+  notify:
+    - reload nginx
+
+- name: Enable znc
+  service:
+    name: znc.service
+    state: started
+    enabled: yes

@@ -1,0 +1,10 @@
+#/bin/sh
+set -e
+
+for domain in $RENEWED_DOMAINS; do
+	case $domain in
+		znc.th73.ovh)
+			cat /etc/letsencrypt/live/znc.th73.ovh/{privkey.pem,cert.pem,chain.pem} > /var/lib/znc/.znc/znc.pem
+			;;
+	esac
+done
