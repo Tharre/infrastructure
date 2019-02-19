@@ -10,3 +10,4 @@
     - { role: grokmirror, tags: ['git'] }
     - { role: cgit, tags: ['cgit'] }
     - { role: jenkins, tags: ['jenkins'] }
+    - { role: wireguard, tags: ['wireguard'] }

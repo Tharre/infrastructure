@@ -1,0 +1,57 @@
+---
+
+- name: Install WireGuard
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - wireguard-lts
+    - wireguard-tools
+
+- name: Ensure /etc/wireguard exists
+  file:
+    path: "/etc/wireguard"
+    state: directory
+    owner: root
+    group: root
+    mode: 0700
+
+- name: Generate private key(s)
+  shell: 'wg genkey'
+  register: wireguard_keys
+  when: item.privateKey is not defined
+  no_log: true
+  with_items: "{{ wireguard }}"
+
+- name: Set private key(s)
+  set_fact:
+    wireguard: "{{ [wireguard|combine(
+      item|combine({'privateKey': wireguard_keys.results[index].stdout})
+    )] }}"
+  when: item.privateKey is not defined
+  no_log: true
+  loop: "{{ wireguard }}"
+  loop_control:
+    index_var: index
+
+- name: Install configuration files
+  template:
+    src: wg.conf.j2
+    dest: "/etc/wireguard/{{ item.name }}.conf"
+    owner: root
+    group: root
+    mode: 0600
+  with_items: "{{ wireguard }}"
+  register: wireguard_changed
+  no_log: true
+  notify:
+    - restart wireguard
+
+- name: Start and enable wireguard service
+  systemd:
+    name: "wg-quick@{{ item.name }}.service"
+    daemon-reload: yes
+    state: started
+    enabled: True
+  no_log: true
+  with_items: "{{ wireguard }}"

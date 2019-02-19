@@ -1,0 +1,23 @@
+---
+
+# wireguard:
+#   - name: wg2server
+#     address: ["10.192.122.1/24", "10.10.0.1/16"]
+#     dns: "10.200.100.1"
+#     port: 51821
+#     # privateKey: "JWlx3sQGTulvLOUbgyM6Ufp+rLTd93swWEuIfEAbzhg="
+#     preUp:
+#     preDown:
+#     postUp: "iptables -A FORWARD -i %i -j ACCEPT; iptables -t nat -A POSTROUTING -o {{ ansible_default_ipv4.interface }} -j MASQUERADE"
+#     postDown: "iptables -D FORWARD -i %i -j ACCEPT; iptables -t nat -D POSTROUTING -o {{ ansible_default_ipv4.interface }} -j MASQUERADE"
+#     fwmark: 0
+#     peers:
+#       - publicKey: "xTIBA5rboUvnH4htodjb6e697QjLERt1NAB4mZqp8Dg="
+#         presharedKey: "/UwcSPg38hW/D9Y3tcS1FOV0K1wuURMbS0sesJEP5ak="
+#         allowedIPs: "10.192.122.3/32"
+#         endpoint:
+#         persistentKeepalive: 0
+#       - publicKey: "TrMvSoP4jYQlY6RIzBgbssQqY3vxI2Pi+y71lOWWXX0="
+#         allowedIPs: "10.192.122.4/32"
+#       - publicKey: "gN65BkIKy1eCE9pP1wdc8ROUtkHLF2PfAqYdyYBz6EA="
+#         allowedIPs: "10.10.10.230/32"

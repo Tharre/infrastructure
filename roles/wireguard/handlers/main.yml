@@ -1,0 +1,6 @@
+---
+
+- name: restart wireguard
+  service: name=wg-quick@{{ item.item.name }}.service state=restarted
+  with_items: "{{ wireguard_changed.results }}"
+  no_log: true

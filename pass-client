@@ -1,0 +1,13 @@
+#!/usr/bin/python
+
+# NOTE: this file must end with "-client", as otherwise ansible won't pass the
+# --vault-id argument to us.
+
+from subprocess import call
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--vault-id', dest='vault_id', required=True)
+args = parser.parse_args()
+
+call(["pass", args.vault_id])

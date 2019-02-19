@@ -1,0 +1,37 @@
+[Interface]
+{% for addr in item.address %}
+Address = {{ addr }}
+{% endfor %}
+{% if item.dns is defined %}
+DNS = {{ item.dns }}
+{% endif %}
+{% if item.preUp is defined %}
+PreUp = {{ item.preUp }}
+{% endif %}
+{% if item.preDown is defined %}
+PreDown = {{ item.preDown }}
+{% endif %}
+{% if item.postUp is defined %}
+PostUp = {{ item.postUp }}
+{% endif %}
+{% if item.postDown is defined %}
+PostDown = {{ item.postDown }}
+{% endif %}
+ListenPort = {{ item.port }}
+PrivateKey = {{ item.privateKey }}
+{% if item.fwmark is defined %}
+Fwmark = {{ item.fwmark }}
+{% endif %}
+
+{% for peer in item.peers %}
+[Peer]
+PublicKey = {{ peer.publicKey }}
+{% if peer.presharedKey is defined %}
+PresharedKey = {{ peer.presharedKey }}
+{% endif %}
+AllowedIPs = {{ peer.allowedIPs }}
+{% if peer.persistentKeepalive is defined %}
+PersistentKeepalive = {{ peer.persistentKeepalive }}
+{% endif %}
+
+{% endfor %}
